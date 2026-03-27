@@ -155,18 +155,18 @@ function App() {
                       <span className="font-mono text-xs px-2 py-1 border border-outlineVariant/30 text-outline">
                         {String(idx + 1).padStart(2, '0')}
                       </span>
-                      <h3 className="text-2xl font-display font-medium text-white group-hover:text-tertiary transition-colors">{project.name}</h3>
+                      <h3 className="text-2xl font-display font-medium text-white group-hover:text-tertiary transition-colors">{project.title}</h3>
                     </div>
-                    <p className="font-mono text-xs text-primary/70 tracking-widest uppercase">{project.tagline}</p>
+                    <p className="font-mono text-xs text-primary/70 tracking-widest uppercase">{project.category}</p>
                   </div>
                   
-                  {project.status === 'STABLE' ? (
+                  {project.metrics && project.metrics.length > 0 ? (
                      <span className="flex items-center gap-1.5 font-mono text-[10px] tracking-wider text-tertiary border border-tertiary/30 px-2 py-1 bg-tertiary/5">
-                       <span className="w-1.5 h-1.5 bg-tertiary"></span> STABLE
+                       <span className="w-1.5 h-1.5 bg-tertiary"></span> {project.metrics[0]}
                      </span>
                   ) : (
                      <span className="flex items-center gap-1.5 font-mono text-[10px] tracking-wider text-primary border border-primary/30 px-2 py-1 bg-primary/5">
-                       <span className="w-1.5 h-1.5 bg-primary"></span> {project.status}
+                       <span className="w-1.5 h-1.5 bg-primary"></span> STABLE
                      </span>
                   )}
                 </div>
@@ -175,16 +175,34 @@ function App() {
                   {project.description}
                 </p>
 
-                <div className="flex flex-wrap gap-2 mb-8">
-                  {project.tech.map((t, i) => (
-                    <span key={i} className="font-mono text-xs px-2 py-1 bg-surfaceContainerLow border border-outlineVariant/20 text-outline">
-                      {t}
-                    </span>
+                <div className="flex flex-wrap gap-4 mb-8">
+                  {project.technologies.map((t, i) => (
+                    <div key={i} className="group/icon relative">
+                      {TECH_ICONS[t] ? (
+                        <div className="h-8 w-8 flex items-center justify-center grayscale opacity-60 group-hover/icon:grayscale-0 group-hover/icon:opacity-100 transition-all duration-300 transform group-hover/icon:scale-110">
+                          <img 
+                            src={TECH_ICONS[t]} 
+                            alt={t} 
+                            className="max-h-full max-w-full object-contain"
+                            title={t}
+                          />
+                        </div>
+                      ) : (
+                        <span className="font-mono text-[10px] px-2 py-1 bg-surfaceContainerLow border border-outlineVariant/20 text-outline">
+                          {t}
+                        </span>
+                      )}
+                      
+                      {/* Tooltip */}
+                      <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-surfaceContainerHighest text-[10px] font-mono text-white opacity-0 group-hover/icon:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50 border border-outlineVariant/30">
+                        {t}
+                      </div>
+                    </div>
                   ))}
                 </div>
 
                 <div className="border-t border-outlineVariant/20 pt-4 mt-auto">
-                  <a href={`https://github.com/${project.github}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 font-mono text-xs tracking-widest text-primary hover:text-white transition-colors group-hover:translate-x-1 duration-300">
+                  <a href={`https://github.com/${project.links.github}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 font-mono text-xs tracking-widest text-primary hover:text-white transition-colors group-hover:translate-x-1 duration-300">
                     VIEW_SOURCE <ArrowRight size={14} />
                   </a>
                 </div>
@@ -318,10 +336,10 @@ function App() {
             {/* Modal Content */}
             <div className="p-8 md:p-12 overflow-y-auto">
               <div className="mb-8">
-                <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-4 tracking-tight">{selectedProject.name}</h2>
+                <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-4 tracking-tight">{selectedProject.title}</h2>
                 <div className="inline-flex items-center gap-3 px-3 py-1.5 bg-tertiary/10 border border-tertiary/30">
                   <div className="w-2 h-2 bg-tertiary animate-pulse"></div>
-                  <span className="font-mono text-tertiary text-sm tracking-widest uppercase">{selectedProject.tagline}</span>
+                  <span className="font-mono text-tertiary text-sm tracking-widest uppercase">{selectedProject.category}</span>
                 </div>
               </div>
               
@@ -333,35 +351,60 @@ function App() {
                 <div className="grid md:grid-cols-2 gap-8 mb-12">
                   <div className="p-6 bg-surfaceContainerLow border border-outlineVariant/30">
                     <h4 className="font-mono text-sm mb-6 text-white tracking-widest flex items-center gap-2">
-                      <Cpu size={16} className="text-tertiary" /> TECHNICAL_ARCHITECTURE
+                      <Cpu size={16} className="text-tertiary" /> TECHNICAL_STACK
                     </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedProject.tech.map((t, i) => (
-                        <span key={i} className="font-mono text-xs px-3 py-1.5 bg-surface border border-outlineVariant/30 text-primary">
-                          {t}
-                        </span>
+                    <div className="flex flex-wrap gap-4">
+                      {selectedProject.technologies.map((t, i) => (
+                        <div key={i} className="group/modal-icon relative">
+                          {TECH_ICONS[t] ? (
+                            <div className="h-10 w-10 flex items-center justify-center grayscale opacity-70 group-hover/modal-icon:grayscale-0 group-hover/modal-icon:opacity-100 transition-all duration-300">
+                              <img src={TECH_ICONS[t]} alt={t} className="max-h-full max-w-full object-contain" title={t} />
+                            </div>
+                          ) : (
+                            <span className="font-mono text-xs px-3 py-1.5 bg-surface border border-outlineVariant/30 text-primary">
+                              {t}
+                            </span>
+                          )}
+                        </div>
                       ))}
                     </div>
                   </div>
                   
                   <div className="p-6 bg-surfaceContainerLow border border-outlineVariant/30 flex flex-col justify-center items-start">
-                    <h4 className="font-mono text-sm mb-4 text-white tracking-widest">DEPLOYMENT_STATUS</h4>
-                    <div className="text-2xl font-mono text-primary mb-2">{selectedProject.status}</div>
-                    <div className="text-sm text-outline">System is fully operational and logged in the main matrix.</div>
+                    <h4 className="font-mono text-sm mb-4 text-white tracking-widest">PERFORMANCE_METRICS</h4>
+                    <div className="space-y-2 w-full">
+                      {selectedProject.metrics.map((m, i) => (
+                        <div key={i} className="flex justify-between items-center border-b border-outlineVariant/10 pb-2">
+                          <span className="font-mono text-[10px] text-outline">{m.split(':')[0]}</span>
+                          <span className="font-mono text-xs text-tertiary">{m.split(':')[1]}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-8 mb-12">
+                  <div className="glass-panel p-6 border-l-4 border-l-tertiary">
+                    <h4 className="font-mono text-xs text-tertiary mb-2 uppercase tracking-widest">Problem_Space</h4>
+                    <p className="text-primary/90 leading-relaxed font-body italic">"{selectedProject.details.problem}"</p>
+                  </div>
+                  <div className="glass-panel p-6 border-l-4 border-l-primary">
+                    <h4 className="font-mono text-xs text-primary mb-2 uppercase tracking-widest">Architectural_Solution</h4>
+                    <p className="text-primary/90 leading-relaxed font-body">{selectedProject.details.solution}</p>
                   </div>
                 </div>
               </div>
               
               {/* Modal Footer */}
               <div className="pt-8 border-t border-outlineVariant/20 flex justify-end">
-                <a 
-                  href={`https://github.com/${selectedProject.github}`} 
-                  target="_blank" 
-                  rel="noreferrer" 
-                  className="flex items-center gap-3 px-8 py-4 bg-tertiary/10 border border-tertiary/50 text-tertiary hover:bg-tertiary hover:text-[#001B3D] transition-colors shadow-[0_0_15px_rgba(0,230,57,0.15)] hover:shadow-[0_0_25px_rgba(0,230,57,0.4)] cursor-pointer"
-                >
-                  <Link size={18} /> ACCESS_REPOSITORY
-                </a>
+                  <a 
+                    href={`https://github.com/${selectedProject.links.github}`} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="flex items-center gap-3 px-8 py-4 bg-tertiary/10 border border-tertiary/50 text-tertiary hover:bg-tertiary hover:text-[#001B3D] transition-colors shadow-[0_0_15px_rgba(0,230,57,0.15)] hover:shadow-[0_0_25px_rgba(0,230,57,0.4)] cursor-pointer"
+                  >
+                    <Link size={18} /> ACCESS_REPOSITORY
+                  </a>
               </div>
             </div>
           </div>
