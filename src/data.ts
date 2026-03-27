@@ -52,10 +52,11 @@ export interface Project {
 
 export const TECH_ICONS: Record<string, string> = {
   "React": "https://cdn.worldvectorlogo.com/logos/react-2.svg",
+  "React 18": "https://cdn.worldvectorlogo.com/logos/react-2.svg",
   "FastAPI": "https://cdn.worldvectorlogo.com/logos/fastapi-1.svg",
   "Python": "https://cdn.worldvectorlogo.com/logos/python-5.svg",
   "Ollama": "https://raw.githubusercontent.com/ollama/ollama/main/docs/assets/ollama.png",
-  "Asyncio": "https://raw.githubusercontent.com/python-trio/trio/master/logo/trio.svg", // Using Trio as a proxy or just Python
+  "Asyncio": "https://raw.githubusercontent.com/python-trio/trio/master/logo/trio.svg", 
   "YOLOv8": "https://raw.githubusercontent.com/ultralytics/assets/main/logos/logo-yolov8.png",
   "OpenCV": "https://cdn.worldvectorlogo.com/logos/opencv.svg",
   "PyTorch": "https://cdn.worldvectorlogo.com/logos/pytorch-2.svg",
@@ -70,19 +71,15 @@ export const TECH_ICONS: Record<string, string> = {
   "FAISS": "https://raw.githubusercontent.com/facebookresearch/faiss/main/docs/img/faiss_logo.png",
   "LangChain": "https://raw.githubusercontent.com/langchain-ai/langchain/master/docs/static/img/langchain_logo.png",
   "ChromaDB": "https://www.trychroma.com/logos/chroma-logo.svg",
-  "all-MiniLM-L6-v2": "https://img.shields.io/badge/SentenceTransformers-all--MiniLM--L6--v2-blue", // Placeholder
-  "Transfer Learning": "https://img.shields.io/badge/Concept-Transfer%20Learning-lightgrey", // Placeholder
-  "RL Module": "https://img.shields.io/badge/Concept-Reinforcement%20Learning-lightgrey", // Placeholder
+  "all-MiniLM-L6-v2": "https://img.shields.io/badge/SentenceTransformers-all--MiniLM--L6--v2-blue",
+  "Transfer Learning": "https://img.shields.io/badge/Concept-Transfer%20Learning-lightgrey",
+  "RL Module": "https://img.shields.io/badge/Concept-Reinforcement%20Learning-lightgrey",
   "Roboflow": "https://cdn.worldvectorlogo.com/logos/roboflow.svg",
-  "Ollama": "https://raw.githubusercontent.com/ollama/ollama/main/docs/assets/ollama.png",
-  "MCP": "https://img.shields.io/badge/Protocol-MCP-orange", // Placeholder
-  "Claude-3.5": "https://img.shields.io/badge/LLM-Claude%203.5-blueviolet", // Placeholder
+  "MCP": "https://img.shields.io/badge/Protocol-MCP-orange",
+  "Claude-3.5": "https://img.shields.io/badge/LLM-Claude%203.5-blueviolet",
   "Gmail API": "https://cdn.worldvectorlogo.com/logos/gmail-icon.svg",
   "SQLite": "https://cdn.worldvectorlogo.com/logos/sqlite.svg",
-  "TypeScript": "https://cdn.worldvectorlogo.com/logos/typescript.svg",
-  "Vite": "https://cdn.worldvectorlogo.com/logos/vitejs.svg",
-  "Tailwind CSS": "https://cdn.worldvectorlogo.com/logos/tailwindcss.svg",
-  "NLP": "https://img.shields.io/badge/Concept-NLP-green" // Placeholder
+  "NLP": "https://img.shields.io/badge/Concept-NLP-green"
 };
 
 export const education = [

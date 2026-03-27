@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Terminal, Code2, Network, ArrowRight, Link, Mail, Cpu } from 'lucide-react';
-import { profile, experience, skills, projects, education, linguisticProficiency } from './data';
+import { profile, experience, skills, projects, education, linguisticProficiency, TECH_ICONS } from './data';
 
 const Typewriter = ({ text, delay = 50, startDelay = 0 }: { text: string, delay?: number, startDelay?: number }) => {
   const [currentText, setCurrentText] = useState('');
