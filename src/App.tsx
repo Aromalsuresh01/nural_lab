@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Terminal, Code2, Network, ArrowRight, Link, Mail, Cpu } from 'lucide-react';
+import { Terminal, Code2, Network, ArrowRight, Link, Mail, Cpu, Download } from 'lucide-react';
 import { profile, experience, skills, projects, education, linguisticProficiency, TECH_ICONS } from './data';
+import TerminalEmulator from './components/TerminalEmulator';
+import { LabReports } from './components/LabReports';
+import TechGlobe from './components/TechGlobe';
 
 const Typewriter = ({ text, delay = 50, startDelay = 0 }: { text: string, delay?: number, startDelay?: number }) => {
   const [currentText, setCurrentText] = useState('');
@@ -90,6 +93,9 @@ function App() {
                 <a href={`mailto:${profile.email}`} className="flex items-center gap-2 px-6 py-3 bg-tertiary/10 border border-tertiary/50 text-tertiary hover:bg-tertiary hover:text-[#001B3D] transition-colors shadow-[0_0_15px_rgba(0,230,57,0.15)] hover:shadow-[0_0_25px_rgba(0,230,57,0.4)]">
                   <Mail size={16} /> INIT_CONNECTION
                 </a>
+                <a href="/resume.pdf" download="Aromal_Suresh_Resume.pdf" className="flex items-center gap-2 px-6 py-3 bg-primary/5 border border-primary/30 text-primary hover:bg-primary/20 hover:text-white transition-colors">
+                  <Download size={16} /> DOWNLOAD_DOSSIER
+                </a>
               </div>
             </div>
 
@@ -131,6 +137,9 @@ function App() {
             </div>
           </div>
         </section>
+
+        {/* Interactive Terminal */}
+        <TerminalEmulator />
 
         {/* Project Grid / LAB_INDEX */}
         <section className="max-w-7xl mx-auto px-6 mb-32">
@@ -210,6 +219,9 @@ function App() {
             ))}
           </div>
         </section>
+
+        {/* Lab Reports */}
+        <LabReports />
 
         {/* Capabilities Matrix */}
         <section className="max-w-7xl mx-auto px-6 mb-32">
@@ -299,6 +311,15 @@ function App() {
               </div>
             </div>
           </div>
+        </section>
+
+        {/* Tech Stack Visualization */}
+        <section className="max-w-7xl mx-auto px-6 mb-32">
+          <div className="flex items-center gap-4 mb-8 border-b border-outlineVariant/20 pb-6">
+            <h2 className="text-2xl font-display font-medium text-white tracking-wide">NEURAL_STACK_ORIENTATION</h2>
+            <div className="h-px bg-outlineVariant flex-1 opacity-20"></div>
+          </div>
+          <TechGlobe />
         </section>
       </main>
 

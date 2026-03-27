@@ -199,3 +199,90 @@ export const projects: Project[] = [
     }
   }
 ];
+
+export interface LabReport {
+  id: string;
+  title: string;
+  date: string;
+  classification: string;
+  tags: string[];
+  abstract: string;
+  readTime: string;
+  relatedProject?: string;
+  sections: { heading: string; content: string }[];
+}
+
+export const labReports: LabReport[] = [
+  {
+    id: "speculative-retrieval",
+    title: "Speculative Retrieval: Beating RAG Latency with Parallel Execution",
+    date: "2025-12-15",
+    classification: "RESEARCH",
+    tags: ["RAG", "Asyncio", "Latency Optimization", "LLM"],
+    abstract: "Standard RAG pipelines suffer from sequential bottlenecks — retrieve, then generate. This report documents a speculative execution approach that begins LLM generation before retrieval completes, achieving a 60% reduction in time-to-first-token.",
+    readTime: "6 min",
+    relatedProject: "Speculative Streaming RAG",
+    sections: [
+      {
+        heading: "The Latency Problem",
+        content: "In conventional RAG architectures, the retrieval step blocks generation entirely. Users stare at a loading spinner for 200-500ms while the vector database returns relevant chunks. Only after retrieval completes does the LLM begin generating tokens. This sequential dependency creates perceived latency that degrades user experience, especially in conversational interfaces where responsiveness is critical."
+      },
+      {
+        heading: "Speculative Execution Model",
+        content: "Inspired by CPU branch prediction, our approach speculatively begins LLM generation using the query alone, while retrieval runs in parallel. The system uses Python's asyncio to manage both coroutines concurrently. A semantic similarity scorer continuously evaluates whether the speculative output aligns with retrieved context. If divergence exceeds a threshold (cosine similarity < 0.72), the stream triggers a mid-course correction — seamlessly splicing retrieved context into the ongoing generation."
+      },
+      {
+        heading: "Results & Trade-offs",
+        content: "TTFT dropped from ~120ms to 45ms — a 62.5% improvement. The correction rate averaged 23% of queries, meaning 77% of speculative generations were contextually accurate without intervention. The primary trade-off is increased compute: dual LLM calls occur during corrections. However, the perceptual latency gain far outweighs the marginal cost, particularly for interactive applications."
+      }
+    ]
+  },
+  {
+    id: "yolov8-medical",
+    title: "Transfer Learning YOLOv8 for Medical Imaging: Lessons from TB Detection",
+    date: "2025-11-03",
+    classification: "CASE_STUDY",
+    tags: ["YOLOv8", "Medical AI", "Transfer Learning", "Computer Vision"],
+    abstract: "Adapting a general-purpose object detection model for medical lesion detection is non-trivial. This report covers the architectural decisions, data augmentation strategies, and RL-based feedback loops that achieved 98.2% sensitivity on TB X-ray classification.",
+    readTime: "8 min",
+    relatedProject: "AI Tuberculosis Detection",
+    sections: [
+      {
+        heading: "Why YOLOv8 for Medical Imaging?",
+        content: "Medical imaging traditionally favors classification-focused architectures (ResNet, EfficientNet). However, TB lesion detection requires both localization and classification — identifying where the lesion is and what type it represents. YOLOv8's anchor-free detection head and efficient backbone make it surprisingly well-suited for this task, especially after transfer learning from COCO-pretrained weights."
+      },
+      {
+        heading: "Data Pipeline & Augmentation",
+        content: "Working with medical data presents unique challenges: limited dataset size (~2,400 annotated X-rays from Roboflow), class imbalance (healthy >> TB-positive), and strict annotation quality requirements. Our augmentation pipeline included histogram equalization, elastic deformation (to simulate anatomical variation), and mosaic augmentation at 50% probability. Critically, we avoided geometric augmentations that could flip anatomical orientation — a common mistake that degrades medical model accuracy."
+      },
+      {
+        heading: "RL-Based Expert Feedback Loop",
+        content: "The system incorporates a reinforcement learning module that adjusts detection confidence thresholds based on expert radiologist feedback. When a doctor flags a false negative, the RL agent reduces the confidence threshold for similar lesion patterns, effectively making the model more cautious for edge cases. This closed-loop refinement improved sensitivity from 94.1% to 98.2% over three iteration cycles."
+      }
+    ]
+  },
+  {
+    id: "mcp-gmail-intelligence",
+    title: "Building MCP Servers for Gmail Intelligence: Architecture Deep-Dive",
+    date: "2026-01-22",
+    classification: "TECHNICAL",
+    tags: ["MCP", "Claude 3.5", "Gmail API", "SQLite", "Agentic AI"],
+    abstract: "Model Context Protocol enables LLMs to interact with external tools through a standardized interface. This report documents the architecture of an MCP server that transforms Gmail into an intelligent commitment tracking system, extracting deadlines and obligations from email threads.",
+    readTime: "7 min",
+    relatedProject: "Commitment-MCP",
+    sections: [
+      {
+        heading: "MCP Architecture Overview",
+        content: "The Model Context Protocol defines a client-server paradigm where the LLM (Claude 3.5) acts as the client, and our custom server exposes tools for Gmail interaction. The server implements three core tools: `search_emails` (query Gmail with natural language), `extract_commitments` (parse obligations from threads), and `check_deadlines` (reconcile commitments against dates). Each tool returns structured JSON that Claude uses for reasoning."
+      },
+      {
+        heading: "Commitment Extraction Pipeline",
+        content: "Email threads are parsed using a multi-stage NLP pipeline. First, we segment threads into individual messages and strip signatures/forwards. Then, obligation-bearing sentences are identified using pattern matching (\"I will\", \"Please ensure\", \"by [date]\") combined with Claude's semantic understanding. Deadlines are normalized using dateparser, handling relative dates (\"next Friday\"), ambiguous formats, and timezone-aware timestamps. Results are persisted in SQLite with FTS5 indexing for fast full-text search."
+      },
+      {
+        heading: "State Management & Resolution Tracking",
+        content: "The SQLite backend maintains a state machine for each commitment: PENDING → IN_PROGRESS → COMPLETED/OVERDUE. The system monitors subsequent emails in the same thread to detect implicit resolution (e.g., \"Done, deployed to production\" resolves a deployment commitment). This heuristic-based resolution achieves 91% extraction success rate, with the remaining 9% typically involving ambiguous or conditional commitments."
+      }
+    ]
+  }
+];
