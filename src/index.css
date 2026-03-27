@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0b1326;
+  --color-primary: #b1c7f2;
+  --color-primary-container: #001B3D;
+  --color-secondary: #ecffe3;
+  --color-secondary-container: #13ff43;
+  --color-tertiary: #00E639;
+  --color-surface: #0b1326;
+  --color-surface-container-low: #131b2e;
+  --color-surface-container-high: #222a3d;
+  --color-surface-variant: #2d3449;
+  --color-outline: #8e9099;
+  --color-outline-variant: #44474e;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: Inter, sans-serif;
+  --font-mono: "Space Mono", monospace;
+  --bg-hero-gradient: linear-gradient(135deg, #001B3D 0%, #060e20 100%);
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-scanline: scanline 8s linear infinite;
+  --animate-fade-in-up: fadeInUp 0.5s ease-out forwards;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@utility glass-panel {
+  background-color: rgb(45 52 73 / 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgb(68 71 78 / 0.3);
+}
+
+@utility terminal-box {
+  background-color: #060e20;
+  border: 1px solid rgb(68 71 78 / 0.3);
+  padding: 1rem;
+}
+
+@utility text-glow {
+  text-shadow: 0 0 10px rgba(0, 230, 57, 0.4);
+}
+
+@utility box-glow {
+  &:hover {
+    box-shadow: 0 0 20px rgba(0, 230, 57, 0.15);
+    border-color: rgba(0, 230, 57, 0.3);
+  }
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-primary);
+    font-family: var(--font-body);
+    background-image: 
+      linear-gradient(to right, rgba(68, 71, 78, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(68, 71, 78, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  * {
+    border-radius: 0 !important;
+  }
+}
