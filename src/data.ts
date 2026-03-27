@@ -26,8 +26,22 @@ export const skills = {
   languages: ["Python", "SQL", "Java", "C"],
   ai: ["Machine Learning", "Deep Learning", "Computer Vision", "NLP / LLMs", "YOLOv8", "RAG Pipelines", "FAISS"],
   frameworks: ["FastAPI", "Streamlit", "n8n Automation", "React", "Node.js"],
-  cloud: ["AWS", "Git", "GitHub", "Docker"]
+  cloud: ["AWS", "Git", "GitHub", "Docker"],
+  domains: ["Data Analytics", "Research & Product Analysis", "Intelligent Automation"]
 };
+
+export const education = [
+  {
+    degree: "MCA (Master of Computer Applications)",
+    institution: "JIMS Rohini Sec 3"
+  },
+  {
+    degree: "BCA (Bachelor of Computer Applications)",
+    institution: "Singhania University"
+  }
+];
+
+export const linguisticProficiency = ["English", "Hindi", "Malayalam"];
 
 export const projects = [
   {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Terminal, Code2, Network, ArrowRight, Link, Mail, Cpu } from 'lucide-react';
-import { profile, experience, skills, projects } from './data';
+import { profile, experience, skills, projects, education, linguisticProficiency } from './data';
 
 const Typewriter = ({ text, delay = 50, startDelay = 0 }: { text: string, delay?: number, startDelay?: number }) => {
   const [currentText, setCurrentText] = useState('');
@@ -194,7 +194,7 @@ function App() {
         </section>
 
         {/* Capabilities Matrix */}
-        <section className="max-w-7xl mx-auto px-6">
+        <section className="max-w-7xl mx-auto px-6 mb-32">
           <div className="grid lg:grid-cols-2 gap-12">
             <div>
               <div className="flex items-center gap-4 mb-12 border-b border-outlineVariant/20 pb-6">
@@ -205,7 +205,8 @@ function App() {
                 {[
                   { title: "AI / ML Architecture", items: skills.ai, icon: <Cpu className="text-tertiary mb-3 opacity-70" /> },
                   { title: "Development / Tooling", items: [...skills.languages, ...skills.frameworks], icon: <Code2 className="text-primary mb-3 opacity-70" /> },
-                  { title: "Cloud & Infrastructure", items: skills.cloud, icon: <Network className="text-outline mb-3 opacity-70" /> }
+                  { title: "Cloud & Infrastructure", items: skills.cloud, icon: <Network className="text-outline mb-3 opacity-70" /> },
+                  { title: "Operational Domains", items: skills.domains, icon: <Network className="text-tertiary mb-3 opacity-30" /> }
                 ].map((realm, i) => (
                   <div key={i} className="p-6 border border-outlineVariant/20 bg-surfaceContainerLow/50 relative">
                     {realm.icon}
@@ -238,6 +239,43 @@ function App() {
                         </li>
                       ))}
                     </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Credentials & Education */}
+        <section className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-12">
+            <div>
+              <div className="flex items-center gap-4 mb-12 border-b border-outlineVariant/20 pb-6">
+                <h2 className="text-2xl font-display font-medium text-white tracking-wide">ACADEMIC_LOGS</h2>
+              </div>
+              <div className="space-y-6">
+                {education.map((edu, i) => (
+                  <div key={i} className="p-6 border border-outlineVariant/20 bg-surfaceContainerLow/30 flex justify-between items-center group hover:border-tertiary/30 transition-colors">
+                    <div>
+                      <h3 className="text-lg font-display text-white group-hover:text-tertiary transition-colors">{edu.degree}</h3>
+                      <p className="font-mono text-xs text-primary/60 tracking-widest uppercase">{edu.institution}</p>
+                    </div>
+                    <div className="w-8 h-8 flex items-center justify-center border border-outlineVariant/30 text-outlineVariant group-hover:text-tertiary group-hover:border-tertiary transition-colors">
+                      <span className="font-mono text-[10px]">{String(i + 1).padStart(2, '0')}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center gap-4 mb-12 border-b border-outlineVariant/20 pb-6">
+                <h2 className="text-2xl font-display font-medium text-white tracking-wide">LINGUISTIC_STACK</h2>
+              </div>
+              <div className="flex flex-wrap gap-4">
+                {linguisticProficiency.map((lang, i) => (
+                  <div key={i} className="px-6 py-4 border border-outlineVariant/20 bg-surfaceContainerLow/30 font-mono text-sm tracking-[0.2em] text-primary flex items-center gap-4 hover:border-tertiary transition-colors">
+                    <span className="w-2 h-2 bg-tertiary/40"></span> {lang.toUpperCase()}
                   </div>
                 ))}
               </div>
