@@ -7,10 +7,9 @@ function ParticleGroup() {
   const ref = useRef<THREE.Points>(null);
 
   // Generate 2500 random points in a sphere
-  const [positions, floatSpeeds] = useMemo(() => {
+  const positions = useMemo(() => {
     const count = 2500;
     const positions = new Float32Array(count * 3);
-    const floatSpeeds = new Float32Array(count);
     
     for (let i = 0; i < count; i++) {
         // Random point on a sphere surface for a neat embedding-like look
@@ -25,10 +24,8 @@ function ParticleGroup() {
         positions[i * 3] = x;
         positions[i * 3 + 1] = y;
         positions[i * 3 + 2] = z;
-
-        floatSpeeds[i] = Math.random() * 0.5 + 0.1;
     }
-    return [positions, floatSpeeds];
+    return positions;
   }, []);
 
   useFrame((state) => {
