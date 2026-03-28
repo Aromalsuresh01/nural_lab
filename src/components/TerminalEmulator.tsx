@@ -176,7 +176,8 @@ function processCommand(input: string): TerminalLine[] {
 export default function TerminalEmulator() {
   const [lines, setLines] = useState<TerminalLine[]>([
     { type: 'ascii', content: ASCII_BANNER },
-    { type: 'system', content: '  Neural Lab Terminal v2.0 — Type "help" for available commands.\n' },
+    { type: 'system', content: '  Neural Lab Terminal v2.0 — [RAG Agent Online]' },
+    { type: 'system', content: '  Type "help" for system commands, or simply ask a question (e.g., "what is VisionRAG?").\n' },
   ]);
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<string[]>([]);
@@ -315,7 +316,7 @@ export default function TerminalEmulator() {
       <div className="flex items-center gap-3 mb-6">
         <div className="w-3 h-3 bg-tertiary animate-pulse"></div>
         <h2 className="font-mono text-sm tracking-[0.3em] text-outline uppercase">
-          Interactive_Terminal
+          Interactive_Terminal <span className="text-tertiary">[RAG_ENABLED]</span>
         </h2>
       </div>
 
