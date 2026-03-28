@@ -6,11 +6,13 @@ import { LabReports } from './components/LabReports';
 import TechGlobe from './components/TechGlobe';
 import SystemMetrics from './components/SystemMetrics';
 import SkillsMatrix from './components/SkillsMatrix';
+import FacilityMap from './components/FacilityMap';
 
 
 
 function App() {
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+  const [unlockingProject, setUnlockingProject] = useState<string | null>(null);
 
   // Close modal on escape key
   useEffect(() => {
@@ -35,6 +37,7 @@ function App() {
         <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px]"></div>
       </div>
 
+      <FacilityMap />
       <SystemMetrics />
 
       {/* Navigation / Top Bar */}
@@ -53,7 +56,7 @@ function App() {
 
       <main className="pt-32 pb-24">
         {/* Hero Section */}
-        <section className="max-w-7xl mx-auto px-6 mb-32">
+        <section id="main-frame" className="max-w-7xl mx-auto px-6 mb-32">
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             <div className="lg:col-span-8 min-w-0 pr-4">
               <div className="mb-6 inline-flex items-center gap-3 px-4 py-2 bg-surfaceContainerLow border border-tertiary/30">
@@ -90,7 +93,7 @@ function App() {
         </section>
 
         {/* Skills Matrix Chart */}
-        <section className="max-w-7xl mx-auto px-6 mb-32">
+        <section id="matrix" className="max-w-7xl mx-auto px-6 mb-32">
           <div className="flex items-center gap-4 mb-12 border-b border-outlineVariant/20 pb-6">
             <h2 className="text-3xl font-display font-medium text-white tracking-wide">COMPETENCY_MATRIX</h2>
             <div className="h-px bg-outlineVariant flex-1 opacity-30"></div>
@@ -104,27 +107,40 @@ function App() {
         <TerminalEmulator />
 
         {/* Project Grid / LAB_INDEX */}
-        <section className="max-w-7xl mx-auto px-6 mb-32">
+        <section id="archive" className="max-w-7xl mx-auto px-6 mb-32">
           <div className="flex items-center gap-4 mb-12 border-b border-outlineVariant/20 pb-6">
-            <h2 className="text-3xl font-display font-medium text-white tracking-wide">LAB_INDEX</h2>
+            <h2 className="text-3xl font-display font-medium text-white tracking-wide">ARCHIVE_VAULTS</h2>
             <div className="h-px bg-outlineVariant flex-1 opacity-30"></div>
             <span className="font-mono text-outline text-sm">OBJ_COUNT: {projects.length}</span>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
-            {projects.map((project, idx) => (
+            {projects.map((project, idx) => {
+              const isUnlocking = unlockingProject === project.id;
+              return (
               <div
                 key={idx}
-                className="glass-panel p-8 group relative overflow-hidden hover:border-tertiary/40 transition-all cursor-pointer hover:shadow-[0_0_30px_rgba(0,230,57,0.1)]"
-                onClick={() => setSelectedProject(project)}
+                className={`vault-container p-8 group relative transition-all cursor-pointer ${isUnlocking ? 'animate-vault-unlock pointer-events-none z-50' : 'hover:border-tertiary hover:shadow-[0_0_40px_rgba(0,230,57,0.15)]'}`}
+                onClick={() => {
+                  setUnlockingProject(project.id);
+                  setTimeout(() => {
+                    setSelectedProject(project);
+                    setUnlockingProject(null);
+                  }, 800); // Wait for vaultUnlock animation to finish
+                }}
               >
+                {/* Vault Door Top Border */}
+                <div className="absolute top-0 left-0 right-0 h-2 bg-outlineVariant/20 group-hover:bg-tertiary/20 flex transition-colors">
+                  <div className="w-16 h-full hazard-stripes opacity-50"></div>
+                </div>
+
                 <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl rounded-full group-hover:bg-tertiary/10 transition-colors"></div>
 
                 <div className="flex justify-between items-start mb-6 align-top">
                   <div>
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="font-mono text-xs px-2 py-1 border border-outlineVariant/30 text-outline">
-                        {String(idx + 1).padStart(2, '0')}
+                      <span className="font-mono text-xs px-2 py-1 bg-[#060e20] border border-outlineVariant/40 text-outline">
+                        VAULT_{String(idx + 1).padStart(2, '0')}
                       </span>
                       <h3 className="text-2xl font-display font-medium text-white group-hover:text-tertiary transition-colors">{project.title}</h3>
                     </div>
@@ -132,12 +148,12 @@ function App() {
                   </div>
 
                   {project.metrics && project.metrics.length > 0 ? (
-                    <span className="flex items-center gap-1.5 font-mono text-[10px] tracking-wider text-tertiary border border-tertiary/30 px-2 py-1 bg-tertiary/5">
-                      <span className="w-1.5 h-1.5 bg-tertiary"></span> {project.metrics[0]}
+                    <span className="flex items-center gap-1.5 font-mono text-[10px] tracking-wider text-[#001B3D] border border-tertiary px-2 py-1 bg-tertiary font-bold shadow-[0_0_10px_rgba(0,230,57,0.4)]">
+                      <span className="w-1.5 h-1.5 bg-[#001B3D] animate-pulse"></span> RISK: CRITICAL
                     </span>
                   ) : (
-                    <span className="flex items-center gap-1.5 font-mono text-[10px] tracking-wider text-primary border border-primary/30 px-2 py-1 bg-primary/5">
-                      <span className="w-1.5 h-1.5 bg-primary"></span> STABLE
+                    <span className="flex items-center gap-1.5 font-mono text-[10px] tracking-wider text-primary border border-primary/40 px-2 py-1 bg-primary/10">
+                      <span className="w-1.5 h-1.5 bg-primary"></span> STABLE: 98%
                     </span>
                   )}
                 </div>
@@ -178,15 +194,18 @@ function App() {
                   </a>
                 </div>
               </div>
-            ))}
+            );
+          })}
           </div>
         </section>
 
         {/* Lab Reports */}
-        <LabReports />
+        <div id="reports">
+          <LabReports />
+        </div>
 
         {/* Capabilities Matrix */}
-        <section className="max-w-7xl mx-auto px-6 mb-32">
+        <section id="intel" className="max-w-7xl mx-auto px-6 mb-32">
           <div className="grid lg:grid-cols-2 gap-12">
             <div>
               <div className="flex items-center gap-4 mb-12 border-b border-outlineVariant/20 pb-6">
@@ -239,7 +258,7 @@ function App() {
         </section>
 
         {/* Credentials & Education */}
-        <section className="max-w-7xl mx-auto px-6">
+        <section id="academy" className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12">
             <div>
               <div className="flex items-center gap-4 mb-12 border-b border-outlineVariant/20 pb-6">
@@ -290,9 +309,9 @@ function App() {
 
       {/* Project Inspector Modal */}
       {selectedProject && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-background/80 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-background/90 backdrop-blur-md">
           <div className="absolute inset-0 cursor-pointer" onClick={() => setSelectedProject(null)}></div>
-          <div className="relative w-full max-w-4xl bg-surfaceContainerHigh border border-tertiary/30 shadow-[0_0_50px_rgba(0,230,57,0.15)] overflow-hidden max-h-[90vh] flex flex-col animate-in fade-in zoom-in-95 duration-200">
+          <div className="relative w-full max-w-4xl vault-container border-tertiary shadow-[0_0_50px_rgba(0,230,57,0.2)] overflow-hidden max-h-[90vh] flex flex-col animate-in fade-in zoom-in-95 duration-200">
 
             {/* Modal Header */}
             <div className="p-4 border-b border-outlineVariant/30 flex justify-between items-center bg-surfaceContainerLowest">
