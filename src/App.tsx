@@ -5,28 +5,7 @@ import TerminalEmulator from './components/TerminalEmulator';
 import { LabReports } from './components/LabReports';
 import TechGlobe from './components/TechGlobe';
 
-const Typewriter = ({ text, delay = 50, startDelay = 0 }: { text: string, delay?: number, startDelay?: number }) => {
-  const [currentText, setCurrentText] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [started, setStarted] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setStarted(true), startDelay);
-    return () => clearTimeout(timer);
-  }, [startDelay]);
-
-  useEffect(() => {
-    if (started && currentIndex < text.length) {
-      const timeout = setTimeout(() => {
-        setCurrentText(prevText => prevText + text[currentIndex]);
-        setCurrentIndex(prevIndex => prevIndex + 1);
-      }, delay);
-      return () => clearTimeout(timeout);
-    }
-  }, [currentIndex, delay, text, started]);
-
-  return <span>{currentText}<span className="animate-pulse">_</span></span>;
-};
 
 function App() {
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
