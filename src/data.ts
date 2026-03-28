@@ -30,6 +30,15 @@ export const skills = {
   domains: ["Data Analytics", "Research & Product Analysis", "Intelligent Automation"]
 };
 
+export const skillMetrics = [
+  { subject: 'AI / Deep Learning', A: 95, fullMark: 100 },
+  { subject: 'Computer Vision', A: 90, fullMark: 100 },
+  { subject: 'NLP & RAG', A: 92, fullMark: 100 },
+  { subject: 'Backend (Python/FastAPI)', A: 85, fullMark: 100 },
+  { subject: 'MLOps & Cloud', A: 80, fullMark: 100 },
+  { subject: 'Data Analytics', A: 85, fullMark: 100 },
+];
+
 export interface Project {
   id: string;
   title: string;

@@ -20,6 +20,7 @@ const HELP_TEXT = `
 
   help          Display this help menu
   about         Show researcher profile
+  ask <query>   Query the Neural RAG Agent
   skills        List technical competencies
   projects      List all research projects
   cat <id>      Inspect a specific project
@@ -187,7 +188,7 @@ export default function TerminalEmulator() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
   }, [lines]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const command = input.trim();
     if (!command) return;
 
@@ -202,10 +203,79 @@ export default function TerminalEmulator() {
     }
 
     const inputLine: TerminalLine = { type: 'input', content: `  visitor@neural-lab:~$ ${command}` };
-    const outputLines = processCommand(command);
-
-    setLines(prev => [...prev, inputLine, ...outputLines]);
+    setLines(prev => [...prev, inputLine]);
     setInput('');
+
+    const cmd = command.toLowerCase().split(/\s+/)[0];
+    const arg = command.split(/\s+/).slice(1).join(' ');
+
+    if (cmd === 'ask') {
+      if (!arg) {
+        setLines(prev => [...prev, { type: 'error', content: '  ERROR: Usage: ask <query>' }]);
+        return;
+      }
+
+      setLines(prev => [...prev, { type: 'system', content: '  [SYSTEM] Initializing Neural RAG Agent...' }]);
+      await new Promise(r => setTimeout(r, 600));
+
+      setLines(prev => {
+        const newLines = [...prev];
+        newLines[newLines.length - 1] = { type: 'system', content: '  [SYSTEM] Searching vector space (ChromaDB) for context matches...' };
+        return newLines;
+      });
+      await new Promise(r => setTimeout(r, 800));
+
+      setLines(prev => {
+        const newLines = [...prev];
+        newLines[newLines.length - 1] = { type: 'system', content: '  [SYSTEM] Context retrieved. Generating response...\n' };
+        return newLines;
+      });
+      await new Promise(r => setTimeout(r, 500));
+
+      let response = '';
+      const q = arg.toLowerCase();
+      
+      if (q.includes('yolo') || q.includes('vision') || q.includes('image')) {
+        response = 'I engineered VisionRAG, integrating YOLOv8 for precise object detection with Retrieval-Augmented Generation. It uses local embeddings (SentenceTransformers) and ChromaDB to enable complex image+text querying.';
+      } else if (q.includes('seo') || q.includes('web') || q.includes('crawler')) {
+        response = 'My Web SEO AI project is a production-ready crawler. It scores technical SEO and uses YOLOv8 to visually evaluate UI components, exporting structured datasets (JSONL) for LLM fine-tuning.';
+      } else if (q.includes('hardware') || q.includes('calculator') || q.includes('inference')) {
+        response = 'I developed an LLM Inference Calculator in React/TypeScript. It maps model parameters and quantization types to actual hardware requirements (VRAM/RAM) and provides specific PC build recommendations.';
+      } else if (q.includes('tuberculosis') || q.includes('tb') || q.includes('medical') || q.includes('x-ray')) {
+        response = 'For medical AI, I built a Tuberculosis Detection model using transfer learning on chest X-rays. I optimized the inference pipeline to ensure it could run efficiently on low-power edge medical devices.';
+      } else if (q.includes('experience') || q.includes('job') || q.includes('work') || q.includes('ideas91')) {
+        response = 'I am currently a Research Analyst at Ideas91 (Aug 2024 - Present), leading AI research, building n8n automation pipelines, and integrating LLM-based solutions into enterprise workflows.';
+      } else if (q.includes('education') || q.includes('degree') || q.includes('mca') || q.includes('bca')) {
+        response = 'I hold a Master of Computer Applications (AI & Data Science) from JIMS Rohini, and a Bachelor of Computer Applications from Singhania University.';
+      } else if (q.includes('who are you') || q.includes('about') || q.includes('aromal')) {
+        response = 'I am Aromal Suresh, an AI & RAG Engineer based in West Delhi. I specialize in latency-optimized RAG pipelines, autonomous agents, and computer vision.';
+      } else if (q.includes('mcp') || q.includes('commit')) {
+        response = 'I built the Commitment-MCP, an AI email tracking system that parses inbox data with strict JSON extraction criteria. It logs actionable requests and commitments made via email into a SQLite database with deterministic constraints.';
+      } else {
+        response = 'My simulated context window doesn\'t have a specific answer for that. Try asking about my experience with "YOLOv8", "RAG", "SEO", "Medical AI", or my "work history".';
+      }
+
+      setLines(prev => [...prev, { type: 'output', content: `  [AI_AGENT] ` }]);
+      
+      const words = response.split(' ');
+      for (let i = 0; i < words.length; i++) {
+          await new Promise(r => setTimeout(r, 45));
+          setLines(prev => {
+            const newLines = [...prev];
+            newLines[newLines.length - 1] = { 
+              type: 'output', 
+              content: `  [AI_AGENT] ${words.slice(0, i + 1).join(' ')}`
+            };
+            return newLines;
+          });
+      }
+      setLines(prev => [...prev, { type: 'output', content: '' }]);
+      return;
+    }
+
+    // Process all other standard synchronous commands
+    const outputLines = processCommand(command);
+    setLines(prev => [...prev, ...outputLines]);
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {

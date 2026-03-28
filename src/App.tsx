@@ -4,6 +4,8 @@ import { profile, experience, skills, projects, education, linguisticProficiency
 import TerminalEmulator from './components/TerminalEmulator';
 import { LabReports } from './components/LabReports';
 import TechGlobe from './components/TechGlobe';
+import SystemMetrics from './components/SystemMetrics';
+import SkillsMatrix from './components/SkillsMatrix';
 
 
 
@@ -32,6 +34,8 @@ function App() {
         <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-tertiary/5 rounded-full blur-[120px]"></div>
         <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px]"></div>
       </div>
+
+      <SystemMetrics />
 
       {/* Navigation / Top Bar */}
       <header className="fixed top-0 w-full z-50 glass-panel border-b-outlineVariant/20 border-t-0 border-l-0 border-r-0">
@@ -82,6 +86,17 @@ function App() {
             <div className="lg:col-span-4 mt-8 lg:-mt-8 relative animate-float">
               <TechGlobe />
             </div>
+          </div>
+        </section>
+
+        {/* Skills Matrix Chart */}
+        <section className="max-w-7xl mx-auto px-6 mb-32">
+          <div className="flex items-center gap-4 mb-12 border-b border-outlineVariant/20 pb-6">
+            <h2 className="text-3xl font-display font-medium text-white tracking-wide">COMPETENCY_MATRIX</h2>
+            <div className="h-px bg-outlineVariant flex-1 opacity-30"></div>
+          </div>
+          <div className="glass-panel p-2">
+            <SkillsMatrix />
           </div>
         </section>
 
