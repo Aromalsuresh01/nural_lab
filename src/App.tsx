@@ -7,7 +7,8 @@ import TechGlobe from './components/TechGlobe';
 import SystemMetrics from './components/SystemMetrics';
 import SkillsMatrix from './components/SkillsMatrix';
 import FacilityMap from './components/FacilityMap';
-
+import LatentSpace from './components/LatentSpace';
+import ProjectSchematic from './components/ProjectSchematic';
 
 
 function App() {
@@ -31,11 +32,8 @@ function App() {
 
   return (
     <div className="min-h-screen bg-transparent relative overflow-x-hidden selection:bg-tertiary selection:text-[#001B3D]">
-      {/* Background ambient light */}
-      <div className="fixed inset-0 pointer-events-none z-[-1] bg-hero-gradient">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-tertiary/5 rounded-full blur-[120px]"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px]"></div>
-      </div>
+      {/* 3D Latent Space Background */}
+      <LatentSpace />
 
       <FacilityMap />
       <SystemMetrics />
@@ -343,19 +341,19 @@ function App() {
                 </p>
 
                 <div className="grid md:grid-cols-2 gap-8 mb-12">
-                  <div className="p-6 bg-surfaceContainerLow border border-outlineVariant/30">
+                  <div className="p-6 bg-surfaceContainerLow border border-outlineVariant/30 shadow-[0_0_20px_rgba(0,0,0,0.3)]">
                     <h4 className="font-mono text-sm mb-6 text-white tracking-widest flex items-center gap-2">
-                      <Cpu size={16} className="text-tertiary" /> TECHNICAL_STACK
+                      <Cpu size={16} className="text-tertiary animate-pulse" /> TECHNICAL_STACK
                     </h4>
                     <div className="flex flex-wrap gap-4">
                       {selectedProject.technologies.map((t, i) => (
                         <div key={i} className="group/modal-icon relative">
                           {TECH_ICONS[t] ? (
-                            <div className="h-10 w-10 flex items-center justify-center grayscale opacity-70 group-hover/modal-icon:grayscale-0 group-hover/modal-icon:opacity-100 transition-all duration-300">
-                              <img src={TECH_ICONS[t]} alt={t} className="max-h-full max-w-full object-contain" title={t} />
+                            <div className="h-10 w-10 flex items-center justify-center grayscale opacity-80 group-hover/modal-icon:grayscale-0 group-hover/modal-icon:opacity-100 transition-all duration-300">
+                              <img src={TECH_ICONS[t]} alt={t} className="max-h-full max-w-full object-contain drop-shadow-[0_0_5px_rgba(0,230,57,0)] group-hover/modal-icon:drop-shadow-[0_0_8px_rgba(0,230,57,0.4)]" title={t} />
                             </div>
                           ) : (
-                            <span className="font-mono text-xs px-3 py-1.5 bg-surface border border-outlineVariant/30 text-primary">
+                            <span className="font-mono text-xs px-3 py-1.5 bg-surface border border-outlineVariant/40 text-primary">
                               {t}
                             </span>
                           )}
@@ -364,28 +362,23 @@ function App() {
                     </div>
                   </div>
 
-                  <div className="p-6 bg-surfaceContainerLow border border-outlineVariant/30 flex flex-col justify-center items-start">
-                    <h4 className="font-mono text-sm mb-4 text-white tracking-widest">PERFORMANCE_METRICS</h4>
-                    <div className="space-y-2 w-full">
+                  <div className="p-6 bg-surfaceContainerLow border border-outlineVariant/30 flex flex-col justify-center items-start shadow-[0_0_20px_rgba(0,0,0,0.3)]">
+                    <h4 className="font-mono text-sm mb-4 text-white tracking-widest flex items-center gap-2">
+                      <Network size={16} className="text-primary" /> PERFORMANCE_METRICS
+                    </h4>
+                    <div className="space-y-3 w-full">
                       {selectedProject.metrics.map((m, i) => (
-                        <div key={i} className="flex justify-between items-center border-b border-outlineVariant/10 pb-2">
-                          <span className="font-mono text-[10px] text-outline">{m.split(':')[0]}</span>
-                          <span className="font-mono text-xs text-tertiary">{m.split(':')[1]}</span>
+                        <div key={i} className="flex justify-between items-center border-b border-outlineVariant/20 pb-2">
+                          <span className="font-mono text-[10px] text-outline tracking-wider">{m.split(':')[0]}</span>
+                          <span className="font-mono text-xs text-tertiary font-bold text-glow">{m.split(':')[1]}</span>
                         </div>
                       ))}
                     </div>
                   </div>
                 </div>
 
-                <div className="space-y-8 mb-12">
-                  <div className="glass-panel p-6 border-l-4 border-l-tertiary">
-                    <h4 className="font-mono text-xs text-tertiary mb-2 uppercase tracking-widest">Problem_Space</h4>
-                    <p className="text-primary/90 leading-relaxed font-body italic">"{selectedProject.details.problem}"</p>
-                  </div>
-                  <div className="glass-panel p-6 border-l-4 border-l-primary">
-                    <h4 className="font-mono text-xs text-primary mb-2 uppercase tracking-widest">Architectural_Solution</h4>
-                    <p className="text-primary/90 leading-relaxed font-body">{selectedProject.details.solution}</p>
-                  </div>
+                <div className="mb-12">
+                  <ProjectSchematic details={selectedProject.details} />
                 </div>
               </div>
 
