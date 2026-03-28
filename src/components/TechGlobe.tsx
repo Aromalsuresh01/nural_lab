@@ -1,6 +1,6 @@
 import { useRef, useMemo, useState } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { OrbitControls, Html } from '@react-three/drei';
+import { OrbitControls, Html, Billboard } from '@react-three/drei';
 import * as THREE from 'three';
 import { TECH_ICONS } from '../data';
 
@@ -9,7 +9,7 @@ function TechIcon({ position, url, name }: { position: [number, number, number],
   const texture = useLoader(THREE.TextureLoader, url);
 
   return (
-    <group position={position}>
+    <Billboard position={position}>
       <mesh
         onPointerOver={() => setHovered(true)}
         onPointerOut={() => setHovered(false)}
@@ -29,7 +29,7 @@ function TechIcon({ position, url, name }: { position: [number, number, number],
           </div>
         </Html>
       )}
-    </group>
+    </Billboard>
   );
 }
 
