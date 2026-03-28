@@ -16,20 +16,18 @@ const ASCII_BANNER = `
 `;
 
 const HELP_TEXT = `
-┌─────────────────────────────────────────────────────┐
-│  AVAILABLE COMMANDS                                 │
-├─────────────────────────────────────────────────────┤
-│  help          Display this help menu               │
-│  about         Show researcher profile              │
-│  skills        List technical competencies           │
-│  projects      List all research projects            │
-│  cat <id>      Inspect a specific project            │
-│  contact       Display communication channels        │
-│  education     Show academic credentials             │
-│  languages     List linguistic proficiency           │
-│  resume        Download dossier (PDF)                │
-│  clear         Clear terminal buffer                 │
-└─────────────────────────────────────────────────────┘`;
+  [AVAILABLE_COMMANDS]
+
+  help          Display this help menu
+  about         Show researcher profile
+  skills        List technical competencies
+  projects      List all research projects
+  cat <id>      Inspect a specific project
+  contact       Display communication channels
+  education     Show academic credentials
+  languages     List linguistic proficiency
+  resume        Download dossier (PDF)
+  clear         Clear terminal buffer`;
 
 function processCommand(input: string): TerminalLine[] {
   const trimmed = input.trim().toLowerCase();
@@ -41,18 +39,15 @@ function processCommand(input: string): TerminalLine[] {
 
   switch (cmd) {
     case 'help':
-      return [{ type: 'system', content: HELP_TEXT }];
+      return [{ type: 'output', content: HELP_TEXT }];
 
     case 'about':
       return [
-        { type: 'output', content: `\n  ╔══════════════════════════════════════╗` },
-        { type: 'output', content: `  ║  RESEARCHER PROFILE                 ║` },
-        { type: 'output', content: `  ╠══════════════════════════════════════╣` },
-        { type: 'output', content: `  ║  Name:     ${profile.name.padEnd(25)}║` },
-        { type: 'output', content: `  ║  Title:    ${profile.title.padEnd(25)}║` },
-        { type: 'output', content: `  ║  Role:     ${profile.subtitle.padEnd(25)}║` },
-        { type: 'output', content: `  ║  Location: ${profile.location.padEnd(25)}║` },
-        { type: 'output', content: `  ╚══════════════════════════════════════╝\n` },
+        { type: 'output', content: `\n  [RESEARCHER_PROFILE]\n` },
+        { type: 'output', content: `  Name:     ${profile.name}` },
+        { type: 'output', content: `  Title:    ${profile.title}` },
+        { type: 'output', content: `  Role:     ${profile.subtitle}` },
+        { type: 'output', content: `  Location: ${profile.location}\n` },
       ];
 
     case 'skills': {
@@ -274,12 +269,12 @@ export default function TerminalEmulator() {
           className="h-[400px] overflow-y-auto p-4 font-mono text-xs leading-relaxed scrollbar-thin"
         >
           {lines.map((line, i) => (
-            <div key={i} className={`whitespace-pre-wrap ${
-              line.type === 'ascii' ? 'text-tertiary/60 text-[9px] leading-none' :
-              line.type === 'input' ? 'text-tertiary' :
-              line.type === 'error' ? 'text-red-400' :
-              line.type === 'system' ? 'text-primary/60 italic' :
-              'text-primary/90'
+            <div key={i} className={`${
+              line.type === 'ascii' ? 'text-tertiary/60 text-[9px] leading-none whitespace-pre' :
+              line.type === 'input' ? 'text-tertiary whitespace-pre-wrap' :
+              line.type === 'error' ? 'text-red-400 whitespace-pre-wrap' :
+              line.type === 'system' ? 'text-primary/60 italic whitespace-pre-wrap' :
+              'text-primary/90 whitespace-pre'
             }`}>
               {line.content}
             </div>

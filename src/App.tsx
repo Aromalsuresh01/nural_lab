@@ -77,15 +77,15 @@ function App() {
                 <div className="w-2 h-2 bg-tertiary animate-pulse"></div>
                 <span className="font-mono text-xs tracking-wider text-tertiary">SYSTEMS_INITIALIZED</span>
               </div>
-              
+
               <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold tracking-tight mb-6 text-white leading-none break-all">
                 {profile.subtitle}
               </h1>
-              
+
               <p className="text-xl md:text-2xl text-primary font-body max-w-2xl mb-10 leading-relaxed border-l-2 border-outlineVariant/30 pl-6">
                 I engineer context-aware AI systems, latency-optimized RAG pipelines, and automated intelligence layers that bridge research and production.
               </p>
-              
+
               <div className="flex flex-wrap gap-4 font-mono text-sm">
                 <a href={`https://${profile.github}`} target="_blank" rel="noreferrer" className="flex items-center gap-2 px-6 py-3 bg-surfaceContainerHigh border border-outlineVariant hover:border-primary transition-colors hover:text-white">
                   <Link size={16} /> GITHUB_REPO
@@ -99,41 +99,9 @@ function App() {
               </div>
             </div>
 
-            {/* Terminal Sidebar */}
-            <div className="lg:col-span-4 hidden lg:block">
-              <div className="terminal-box h-[400px] flex flex-col box-glow relative overflow-hidden animate-float">
-                {/* Decorative Scanline */}
-                <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_bottom,transparent,rgba(0,230,57,0.1),transparent)] h-[20%] w-full animate-scanline z-10"></div>
-                
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-tertiary/50 to-transparent z-20"></div>
-                <div className="flex justify-between items-center border-b border-outlineVariant/30 pb-2 mb-4 relative z-20">
-                  <span className="text-outline">sys_log.sh</span>
-                  <div className="flex gap-2">
-                    <div className="w-2 h-2 bg-outlineVariant rounded-full"></div>
-                    <div className="w-2 h-2 bg-outlineVariant rounded-full"></div>
-                    <div className="w-2 h-2 bg-tertiary rounded-full animate-pulse"></div>
-                  </div>
-                </div>
-                
-                <div className="space-y-3 text-primary flex-1 opacity-80 overflow-hidden relative z-20 text-sm">
-                  {[
-                    { text: "> Authenticating user...", color: "text-primary", delay: "0ms" },
-                    { text: `> [OK] Identity verified: ${profile.name}`, color: "text-tertiary", delay: "600ms" },
-                    { text: "> Loading architecture...", color: "text-primary", delay: "1200ms" },
-                    { text: "> [OK] Neural patterns mapped.", color: "text-tertiary", delay: "1800ms" },
-                    { text: "> Establishing latency threshold...", color: "text-primary", delay: "2200ms" },
-                    { text: "> Target: < 50ms", color: "text-primary", delay: "2600ms" }
-                  ].map((line, idx) => (
-                    <p key={idx} className={`${line.color} opacity-0 animate-fade-in-up`} style={{ animationDelay: line.delay }}>
-                      {line.text}
-                    </p>
-                  ))}
-                  
-                  <p className="text-tertiary mt-8 opacity-0 animate-fade-in-up" style={{ animationDelay: "3200ms" }}>
-                    <Typewriter text={`> Awaiting directive...`} delay={40} startDelay={3200} />
-                  </p>
-                </div>
-              </div>
+            {/* Tech Stack Visualization */}
+            <div className="lg:col-span-4 hidden lg:block -mt-8 relative animate-float">
+              <TechGlobe />
             </div>
           </div>
         </section>
@@ -151,13 +119,13 @@ function App() {
 
           <div className="grid md:grid-cols-2 gap-6">
             {projects.map((project, idx) => (
-              <div 
-                key={idx} 
+              <div
+                key={idx}
                 className="glass-panel p-8 group relative overflow-hidden hover:border-tertiary/40 transition-all cursor-pointer hover:shadow-[0_0_30px_rgba(0,230,57,0.1)]"
                 onClick={() => setSelectedProject(project)}
               >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl rounded-full group-hover:bg-tertiary/10 transition-colors"></div>
-                
+
                 <div className="flex justify-between items-start mb-6 align-top">
                   <div>
                     <div className="flex items-center gap-3 mb-2">
@@ -168,15 +136,15 @@ function App() {
                     </div>
                     <p className="font-mono text-xs text-primary/70 tracking-widest uppercase">{project.category}</p>
                   </div>
-                  
+
                   {project.metrics && project.metrics.length > 0 ? (
-                     <span className="flex items-center gap-1.5 font-mono text-[10px] tracking-wider text-tertiary border border-tertiary/30 px-2 py-1 bg-tertiary/5">
-                       <span className="w-1.5 h-1.5 bg-tertiary"></span> {project.metrics[0]}
-                     </span>
+                    <span className="flex items-center gap-1.5 font-mono text-[10px] tracking-wider text-tertiary border border-tertiary/30 px-2 py-1 bg-tertiary/5">
+                      <span className="w-1.5 h-1.5 bg-tertiary"></span> {project.metrics[0]}
+                    </span>
                   ) : (
-                     <span className="flex items-center gap-1.5 font-mono text-[10px] tracking-wider text-primary border border-primary/30 px-2 py-1 bg-primary/5">
-                       <span className="w-1.5 h-1.5 bg-primary"></span> STABLE
-                     </span>
+                    <span className="flex items-center gap-1.5 font-mono text-[10px] tracking-wider text-primary border border-primary/30 px-2 py-1 bg-primary/5">
+                      <span className="w-1.5 h-1.5 bg-primary"></span> STABLE
+                    </span>
                   )}
                 </div>
 
@@ -189,9 +157,9 @@ function App() {
                     <div key={i} className="group/icon relative">
                       {TECH_ICONS[t] ? (
                         <div className="h-8 w-8 flex items-center justify-center grayscale opacity-60 group-hover/icon:grayscale-0 group-hover/icon:opacity-100 transition-all duration-300 transform group-hover/icon:scale-110">
-                          <img 
-                            src={TECH_ICONS[t]} 
-                            alt={t} 
+                          <img
+                            src={TECH_ICONS[t]}
+                            alt={t}
                             className="max-h-full max-w-full object-contain"
                             title={t}
                           />
@@ -201,7 +169,7 @@ function App() {
                           {t}
                         </span>
                       )}
-                      
+
                       {/* Tooltip */}
                       <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-surfaceContainerHighest text-[10px] font-mono text-white opacity-0 group-hover/icon:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50 border border-outlineVariant/30">
                         {t}
@@ -230,7 +198,7 @@ function App() {
               <div className="flex items-center gap-4 mb-12 border-b border-outlineVariant/20 pb-6">
                 <h2 className="text-2xl font-display font-medium text-white tracking-wide">CAPABILITIES_MATRIX</h2>
               </div>
-              
+
               <div className="space-y-6">
                 {[
                   { title: "AI / ML Architecture", items: skills.ai, icon: <Cpu className="text-tertiary mb-3 opacity-70" /> },
@@ -251,7 +219,7 @@ function App() {
               <div className="flex items-center gap-4 mb-12 border-b border-outlineVariant/20 pb-6">
                 <h2 className="text-2xl font-display font-medium text-white tracking-wide">FIELD_EXPERIENCE</h2>
               </div>
-              
+
               <div className="space-y-8">
                 {experience.map((exp, i) => (
                   <div key={i} className="pl-6 border-l border-outlineVariant/30 relative">
@@ -313,14 +281,6 @@ function App() {
           </div>
         </section>
 
-        {/* Tech Stack Visualization */}
-        <section className="max-w-7xl mx-auto px-6 mb-32">
-          <div className="flex items-center gap-4 mb-8 border-b border-outlineVariant/20 pb-6">
-            <h2 className="text-2xl font-display font-medium text-white tracking-wide">NEURAL_STACK_ORIENTATION</h2>
-            <div className="h-px bg-outlineVariant flex-1 opacity-20"></div>
-          </div>
-          <TechGlobe />
-        </section>
       </main>
 
       <footer className="border-t border-outlineVariant/20 mt-20 bg-surfaceContainerLow">
@@ -339,21 +299,21 @@ function App() {
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-background/80 backdrop-blur-sm">
           <div className="absolute inset-0 cursor-pointer" onClick={() => setSelectedProject(null)}></div>
           <div className="relative w-full max-w-4xl bg-surfaceContainerHigh border border-tertiary/30 shadow-[0_0_50px_rgba(0,230,57,0.15)] overflow-hidden max-h-[90vh] flex flex-col animate-in fade-in zoom-in-95 duration-200">
-            
+
             {/* Modal Header */}
             <div className="p-4 border-b border-outlineVariant/30 flex justify-between items-center bg-surfaceContainerLowest">
               <div className="flex items-center gap-3">
                 <Terminal className="text-tertiary" size={18} />
                 <span className="font-mono text-sm tracking-widest text-primary">PROJECT_INSPECTOR // {selectedProject.id.toUpperCase()}</span>
               </div>
-              <button 
-                onClick={() => setSelectedProject(null)} 
+              <button
+                onClick={() => setSelectedProject(null)}
                 className="text-outline hover:text-white font-mono text-sm px-3 py-1 border border-transparent hover:border-outlineVariant transition-colors cursor-pointer"
               >
                 [ESC] CLOSE
               </button>
             </div>
-            
+
             {/* Modal Content */}
             <div className="p-8 md:p-12 overflow-y-auto">
               <div className="mb-8">
@@ -363,12 +323,12 @@ function App() {
                   <span className="font-mono text-tertiary text-sm tracking-widest uppercase">{selectedProject.category}</span>
                 </div>
               </div>
-              
+
               <div className="prose prose-invert max-w-none">
                 <p className="text-lg md:text-xl text-primary/90 leading-relaxed font-body border-l-2 border-tertiary/50 pl-6 mb-12">
                   {selectedProject.description}
                 </p>
-                
+
                 <div className="grid md:grid-cols-2 gap-8 mb-12">
                   <div className="p-6 bg-surfaceContainerLow border border-outlineVariant/30">
                     <h4 className="font-mono text-sm mb-6 text-white tracking-widest flex items-center gap-2">
@@ -390,7 +350,7 @@ function App() {
                       ))}
                     </div>
                   </div>
-                  
+
                   <div className="p-6 bg-surfaceContainerLow border border-outlineVariant/30 flex flex-col justify-center items-start">
                     <h4 className="font-mono text-sm mb-4 text-white tracking-widest">PERFORMANCE_METRICS</h4>
                     <div className="space-y-2 w-full">
@@ -415,17 +375,17 @@ function App() {
                   </div>
                 </div>
               </div>
-              
+
               {/* Modal Footer */}
               <div className="pt-8 border-t border-outlineVariant/20 flex justify-end">
-                  <a 
-                    href={`https://github.com/${selectedProject.links.github}`} 
-                    target="_blank" 
-                    rel="noreferrer" 
-                    className="flex items-center gap-3 px-8 py-4 bg-tertiary/10 border border-tertiary/50 text-tertiary hover:bg-tertiary hover:text-[#001B3D] transition-colors shadow-[0_0_15px_rgba(0,230,57,0.15)] hover:shadow-[0_0_25px_rgba(0,230,57,0.4)] cursor-pointer"
-                  >
-                    <Link size={18} /> ACCESS_REPOSITORY
-                  </a>
+                <a
+                  href={`https://github.com/${selectedProject.links.github}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-3 px-8 py-4 bg-tertiary/10 border border-tertiary/50 text-tertiary hover:bg-tertiary hover:text-[#001B3D] transition-colors shadow-[0_0_15px_rgba(0,230,57,0.15)] hover:shadow-[0_0_25px_rgba(0,230,57,0.4)] cursor-pointer"
+                >
+                  <Link size={18} /> ACCESS_REPOSITORY
+                </a>
               </div>
             </div>
           </div>

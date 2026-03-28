@@ -53,7 +53,7 @@ function Globe() {
       const x = Math.cos(theta) * radius;
       const z = Math.sin(theta) * radius;
 
-      p.push([x * 3, y * 3, z * 3] as [number, number, number]);
+      p.push([x * 2.3, y * 2.3, z * 2.3] as [number, number, number]);
     }
     return p;
   }, [techEntries]);
@@ -71,20 +71,19 @@ function Globe() {
         <TechIcon key={name} position={points[i]} url={url} name={name} />
       ))}
       
-      {/* Decorative wireframe sphere */}
       <mesh>
-        <sphereGeometry args={[3, 16, 16]} />
+        <sphereGeometry args={[2.3, 16, 16]} />
         <meshBasicMaterial color="#b1c7f2" wireframe transparent opacity={0.05} />
       </mesh>
     </group>
   );
 }
 
-export default function TechGlobe() {
+export default function TechGlobe({ className = '' }: { className?: string }) {
   return (
-    <div className="w-full h-[500px] relative mt-12 mb-20">
+    <div className={`w-full h-[400px] relative ${className}`}>
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px]"></div>
+        <div className="w-[320px] h-[320px] bg-primary/5 rounded-full blur-[100px]"></div>
       </div>
       
       <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
