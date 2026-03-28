@@ -369,7 +369,6 @@ export default function TerminalEmulator() {
               onKeyDown={handleKeyDown}
               className="flex-1 bg-transparent outline-none text-tertiary font-mono text-xs caret-tertiary"
               spellCheck={false}
-              autoFocus
             />
           </div>
         </div>
