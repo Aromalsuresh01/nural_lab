@@ -209,8 +209,15 @@ export default function TerminalEmulator() {
     const cmd = command.toLowerCase().split(/\s+/)[0];
     const arg = command.split(/\s+/).slice(1).join(' ');
 
-    if (cmd === 'ask') {
-      if (!arg) {
+    const validCommands = ['help', 'about', 'skills', 'projects', 'cat', 'contact', 'education', 'languages', 'experience', 'resume', 'clear'];
+    const isSentence = command.trim().includes(' ');
+    const isAskCommand = cmd === 'ask';
+    
+    const isAskQuery = isAskCommand || (!validCommands.includes(cmd) && isSentence);
+    const queryArg = isAskCommand ? arg : command;
+
+    if (isAskQuery) {
+      if (!queryArg) {
         setLines(prev => [...prev, { type: 'error', content: '  ERROR: Usage: ask <query>' }]);
         return;
       }
@@ -233,7 +240,7 @@ export default function TerminalEmulator() {
       await new Promise(r => setTimeout(r, 500));
 
       let response = '';
-      const q = arg.toLowerCase();
+      const q = queryArg.toLowerCase();
       
       if (q.includes('yolo') || q.includes('vision') || q.includes('image')) {
         response = 'I engineered VisionRAG, integrating YOLOv8 for precise object detection with Retrieval-Augmented Generation. It uses local embeddings (SentenceTransformers) and ChromaDB to enable complex image+text querying.';
