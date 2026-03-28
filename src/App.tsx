@@ -79,7 +79,7 @@ function App() {
             </div>
 
             {/* Tech Stack Visualization */}
-            <div className="lg:col-span-4 hidden lg:block -mt-8 relative animate-float">
+            <div className="lg:col-span-4 mt-8 lg:-mt-8 relative animate-float">
               <TechGlobe />
             </div>
           </div>
