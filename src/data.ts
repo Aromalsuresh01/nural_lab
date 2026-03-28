@@ -84,7 +84,7 @@ export const TECH_ICONS: Record<string, string> = {
 
 export const education = [
   {
-    degree: "MCA (Master of Computer Applications)",
+    degree: "Master of Computer Applications (AI & Data Science)",
     institution: "JIMS Rohini Sec 3"
   },
   {
