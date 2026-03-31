@@ -64,11 +64,14 @@ export default function MarioGame({ onExit }: { onExit: () => void }) {
 
     // Input Handling
     const keys: Record<string, boolean> = {};
+    const GAME_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'w', 'a', 's', 'd', ' '];
     const handleKeyDown = (e: globalThis.KeyboardEvent) => {
+      if (GAME_KEYS.includes(e.key)) e.preventDefault();
       keys[e.key] = true;
       if (e.key === 'Escape') onExit();
     };
     const handleKeyUp = (e: globalThis.KeyboardEvent) => {
+      if (GAME_KEYS.includes(e.key)) e.preventDefault();
       keys[e.key] = false;
     };
 
