@@ -11,9 +11,6 @@ interface GameObject {
 
 export default function MarioGame({ onExit }: { onExit: () => void }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [score, setScore] = useState(0);
-  const [gameOver, setGameOver] = useState(false);
-  const [win, setWin] = useState(false);
 
   // Constants
   const GRAVITY = 0.5;
@@ -141,14 +138,12 @@ export default function MarioGame({ onExit }: { onExit: () => void }) {
         ) {
           coins.splice(i, 1);
           localScore += 100;
-          setScore(localScore);
         }
       }
 
       // Fall off
       if (player.y > CANVAS_HEIGHT) {
         localGameOver = true;
-        setGameOver(true);
       }
 
       // Goal
@@ -159,7 +154,6 @@ export default function MarioGame({ onExit }: { onExit: () => void }) {
         player.y + player.height > goal.y
       ) {
         localWin = true;
-        setWin(true);
       }
 
       draw();
