@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, type KeyboardEvent } from 'react';
 import { profile, experience, skills, projects, education, linguisticProficiency } from '../data';
+import MarioGame from './MarioGame';
 
 interface TerminalLine {
   type: 'input' | 'output' | 'error' | 'system' | 'ascii';
@@ -182,6 +183,7 @@ export default function TerminalEmulator() {
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+  const [isGameActive, setIsGameActive] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -199,6 +201,12 @@ export default function TerminalEmulator() {
 
     if (command.toLowerCase() === 'clear') {
       setLines([]);
+      setInput('');
+      return;
+    }
+
+    if (command.toLowerCase() === 'mario') {
+      setIsGameActive(true);
       setInput('');
       return;
     }
@@ -344,33 +352,39 @@ export default function TerminalEmulator() {
         {/* Terminal Output */}
         <div
           ref={scrollRef}
-          className="h-[400px] overflow-y-auto p-4 font-mono text-xs leading-relaxed scrollbar-thin"
+          className="h-[400px] overflow-y-auto font-mono text-xs leading-relaxed scrollbar-thin"
         >
-          {lines.map((line, i) => (
-            <div key={i} className={`${
-              line.type === 'ascii' ? 'text-tertiary/60 text-[9px] leading-none whitespace-pre' :
-              line.type === 'input' ? 'text-tertiary whitespace-pre-wrap' :
-              line.type === 'error' ? 'text-red-400 whitespace-pre-wrap' :
-              line.type === 'system' ? 'text-primary/60 italic whitespace-pre-wrap' :
-              'text-primary/90 whitespace-pre'
-            }`}>
-              {line.content}
-            </div>
-          ))}
+          {isGameActive ? (
+            <MarioGame onExit={() => setIsGameActive(false)} />
+          ) : (
+            <div className="p-4">
+              {lines.map((line, i) => (
+                <div key={i} className={`${
+                  line.type === 'ascii' ? 'text-tertiary/60 text-[9px] leading-none whitespace-pre' :
+                  line.type === 'input' ? 'text-tertiary whitespace-pre-wrap' :
+                  line.type === 'error' ? 'text-red-400 whitespace-pre-wrap' :
+                  line.type === 'system' ? 'text-primary/60 italic whitespace-pre-wrap' :
+                  'text-primary/90 whitespace-pre'
+                }`}>
+                  {line.content}
+                </div>
+              ))}
 
-          {/* Input Line */}
-          <div className="flex items-center text-tertiary mt-1">
-            <span className="whitespace-pre">  visitor@neural-lab:~$ </span>
-            <input
-              ref={inputRef}
-              type="text"
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className="flex-1 bg-transparent outline-none text-tertiary font-mono text-xs caret-tertiary"
-              spellCheck={false}
-            />
-          </div>
+              {/* Input Line */}
+              <div className="flex items-center text-tertiary mt-1">
+                <span className="whitespace-pre">  visitor@neural-lab:~$ </span>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={input}
+                  onChange={e => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  className="flex-1 bg-transparent outline-none text-tertiary font-mono text-xs caret-tertiary"
+                  spellCheck={false}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>
