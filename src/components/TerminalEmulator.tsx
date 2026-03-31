@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, type KeyboardEvent } from 'react';
 import { profile, experience, skills, projects, education, linguisticProficiency } from '../data';
 import MarioGame from './MarioGame';
+import FlappyGame from './FlappyGame';
 
 interface TerminalLine {
   type: 'input' | 'output' | 'error' | 'system' | 'ascii';
@@ -183,7 +184,7 @@ export default function TerminalEmulator() {
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
-  const [isGameActive, setIsGameActive] = useState(false);
+  const [activeGame, setActiveGame] = useState<'mario' | 'flappy' | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -206,7 +207,13 @@ export default function TerminalEmulator() {
     }
 
     if (command.toLowerCase() === 'mario') {
-      setIsGameActive(true);
+      setActiveGame('mario');
+      setInput('');
+      return;
+    }
+
+    if (command.toLowerCase() === 'flappy') {
+      setActiveGame('flappy');
       setInput('');
       return;
     }
@@ -354,8 +361,10 @@ export default function TerminalEmulator() {
           ref={scrollRef}
           className="h-[400px] overflow-y-auto font-mono text-xs leading-relaxed scrollbar-thin"
         >
-          {isGameActive ? (
-            <MarioGame onExit={() => setIsGameActive(false)} />
+          {activeGame === 'mario' ? (
+            <MarioGame onExit={() => setActiveGame(null)} />
+          ) : activeGame === 'flappy' ? (
+            <FlappyGame onExit={() => setActiveGame(null)} />
           ) : (
             <div className="p-4">
               {lines.map((line, i) => (
